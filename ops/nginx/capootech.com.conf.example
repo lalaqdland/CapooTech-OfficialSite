@@ -1,0 +1,151 @@
+upstream grain_hk_upstream {
+    server 47.83.120.83:18081;
+    keepalive 64;
+}
+
+upstream neuralnote_hk_upstream {
+    server 47.242.60.251:18080;
+    keepalive 64;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name capootech.com www.capootech.com capootech.cn www.capootech.cn grain.capootech.com neuralnote.capootech.com;
+
+    location ^~ /.well-known/acme-challenge/ {
+        root /usr/share/nginx/html;
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name www.capootech.com;
+
+    ssl_certificate /etc/letsencrypt/live/capootech.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/capootech.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 301 https://capootech.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name capootech.cn www.capootech.cn;
+
+    ssl_certificate /etc/letsencrypt/live/capootech.cn/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/capootech.cn/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    return 301 https://capootech.com$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name capootech.com;
+
+    ssl_certificate /etc/letsencrypt/live/capootech.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/capootech.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    root /opt/sites/capootech/current;
+    index index.html;
+
+    location = /favicon-capoo.svg {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable" always;
+        try_files $uri =404;
+    }
+
+    location ^~ /images/ {
+        alias /opt/sites/capootech/current/images/;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, immutable" always;
+        try_files $uri =404;
+    }
+
+    location ~* \.(css|js|mjs)$ {
+        expires 7d;
+        add_header Cache-Control "public, max-age=604800" always;
+        try_files $uri =404;
+    }
+
+    location = / {
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+        try_files /index.html =404;
+    }
+
+    location = /index.html {
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+        try_files /index.html =404;
+    }
+
+    location / {
+        add_header Cache-Control "no-store, no-cache, must-revalidate, max-age=0" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name grain.capootech.com;
+
+    ssl_certificate /etc/letsencrypt/live/grain.capootech.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/grain.capootech.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    location / {
+        proxy_pass http://grain_hk_upstream;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 300;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name neuralnote.capootech.com;
+
+    ssl_certificate /etc/letsencrypt/live/neuralnote.capootech.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/neuralnote.capootech.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    location / {
+        proxy_pass http://neuralnote_hk_upstream;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 300;
+    }
+}
