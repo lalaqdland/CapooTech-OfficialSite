@@ -86,7 +86,7 @@ jobs:
           set -euxo pipefail
           for _ in {1..12}; do
             if curl -fsS --max-time 10 https://capootech.com/ > /tmp/capootech-home.html; then
-              if grep -q "favicon-capoo.svg" /tmp/capootech-home.html && grep -q "beian.miit.gov.cn" /tmp/capootech-home.html && grep -q "id=\"lang-toggle\"" /tmp/capootech-home.html && grep -q "data-i18n=\"product1Name\"" /tmp/capootech-home.html; then
+              if grep -q "favicon-capoo.svg" /tmp/capootech-home.html && grep -q "grain.capootech.com" /tmp/capootech-home.html && grep -q "id=\"lang-toggle\"" /tmp/capootech-home.html; then
                 exit 0
               fi
             fi

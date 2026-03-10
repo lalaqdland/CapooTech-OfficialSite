@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CapooTech</title>
-  <meta name="description" content="CapooTech apps: Product 1 and Product 2" />
+  <meta name="description" content="CapooTech apps: Grain and NeuralNote" />
   <link rel="icon" type="image/svg+xml" href="/favicon-capoo.svg?v=20260208" />
   <link rel="stylesheet" href="/styles.css" />
   <script src="/lang-toggle.js" defer></script>
@@ -29,12 +29,16 @@
       <h1 data-i18n="title">选择应用</h1>
       <p class="subtitle" data-i18n="subtitle">一个入口，连接写作与科研工作流。</p>
       <div class="cta-grid">
-        <article class="card grain">
-          <h2 data-i18n="product1Name">产品1</h2>
-        </article>
-        <article class="card neuralnote">
-          <h2 data-i18n="product2Name">产品2</h2>
-        </article>
+        <a class="card grain" href="https://grain.capootech.com" target="_blank" rel="noopener noreferrer">
+          <h2>Grain</h2>
+          <p data-i18n="grainDesc">AI 人性化改写与学术润色工作台</p>
+          <span data-i18n="openGrain">打开 Grain</span>
+        </a>
+        <a class="card neuralnote" href="https://neuralnote.capootech.com" target="_blank" rel="noopener noreferrer">
+          <h2>NeuralNote</h2>
+          <p data-i18n="neuralDesc">科研笔记与检索体验</p>
+          <span data-i18n="openNeural">打开 NeuralNote</span>
+        </a>
       </div>
     </section>
 
@@ -48,14 +52,34 @@
       </div>
     </section>
 
-    <footer class="site-footer" aria-label="备案信息">
-      <p>
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">鲁ICP备2026008688号-1</a>
-      </p>
-      <p>
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">鲁ICP备2026008688号-2</a>
-      </p>
+    <footer class="site-footer" aria-label="Site filings">
+      <div class="filings">
+        <a
+          class="filing-link"
+          href="https://beian.miit.gov.cn/#/Integrated/index"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>鲁ICP备2026008688号-2</span>
+        </a>
+        <a
+          class="filing-link filing-link-police"
+          href="https://beian.mps.gov.cn/#/query/webSearch"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            class="filing-badge"
+            src="/images/filings/public-security-badge.png"
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+          />
+          <span>鲁公网安备37021402007212号</span>
+        </a>
+      </div>
     </footer>
+
   </main>
 </body>
 </html>
