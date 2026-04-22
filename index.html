@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark" data-layout="layout-b">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,10 +8,68 @@
   <link rel="icon" type="image/svg+xml" href="/favicon-capoo.svg?v=20260208" />
   <link rel="stylesheet" href="/styles.css" />
   <script src="/lang-toggle.js" defer></script>
+  <script src="/theme-toggle.js" defer></script>
+  <script src="/layout-toggle.js" defer></script>
 </head>
 <body>
+  
+  <!-- 方案 A：满屏环境漂浮泡泡 (Layout A) -->
+  <div class="floating-cats" aria-hidden="true">
+    <img src="/images/capoo/capoo-01.webp" class="orb orb1" alt="" />
+    <img src="/images/capoo/capoo-02.webp" class="orb orb2" alt="" />
+    <img src="/images/capoo/capoo-03.webp" class="orb orb3" alt="" />
+    <img src="/images/capoo/capoo-04.webp" class="orb orb4" alt="" />
+  </div>
+
+  <!-- 方案 B：顶部相框/履带 (Layout B) -->
+  <div class="edge-cats edge-top" aria-hidden="true">
+    <div class="edge-track animate-left">
+      <div class="marquee-group">
+        <img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" />
+      </div>
+      <div class="marquee-group">
+        <img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 方案 B：底部相框/履带 (Layout B) -->
+  <div class="edge-cats edge-bottom" aria-hidden="true">
+    <div class="edge-track animate-right">
+      <div class="marquee-group">
+        <img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" />
+      </div>
+      <div class="marquee-group">
+        <img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" /><img src="/images/capoo/capoo-01.webp" alt="" /><img src="/images/capoo/capoo-02.webp" alt="" /><img src="/images/capoo/capoo-03.webp" alt="" /><img src="/images/capoo/capoo-04.webp" alt="" />
+      </div>
+    </div>
+  </div>
+
   <main class="page">
     <header class="topbar">
+      <!-- 视角切换 -->
+      <button
+        id="layout-toggle"
+        class="lang-toggle"
+        type="button"
+        aria-label="切换排版"
+        title="切换排版呈现(画框/漂浮泡泡)"
+      >
+        <span class="lang-icon" aria-hidden="true" id="layout-icon">🫧</span>
+      </button>
+
+      <!-- 主题切换 -->
+      <button
+        id="theme-toggle"
+        class="lang-toggle"
+        type="button"
+        aria-label="切换主题"
+        title="切换主题"
+      >
+        <span class="lang-icon" aria-hidden="true" id="theme-icon">🌙</span>
+      </button>
+
+      <!-- 语言切换 -->
       <button
         id="lang-toggle"
         class="lang-toggle"
@@ -39,24 +97,6 @@
           <p data-i18n="neuralDesc">科研笔记与检索体验</p>
           <span data-i18n="openNeural">打开 NeuralNote</span>
         </a>
-      </div>
-    </section>
-
-    <section class="gallery">
-      <h3 data-i18n="galleryTitle">咖波图库</h3>
-      <div class="gallery-slider">
-        <div class="gallery-track">
-          <!-- 原图组合 -->
-          <img src="/images/capoo/capoo-01.webp" alt="Capoo photo 1" loading="lazy" />
-          <img src="/images/capoo/capoo-02.webp" alt="Capoo photo 2" loading="lazy" />
-          <img src="/images/capoo/capoo-03.webp" alt="Capoo photo 3" loading="lazy" />
-          <img src="/images/capoo/capoo-04.webp" alt="Capoo photo 4" loading="lazy" />
-          <!-- 复制一遍以实现无缝滚动循环 -->
-          <img src="/images/capoo/capoo-01.webp" alt="Capoo photo 1" loading="lazy" />
-          <img src="/images/capoo/capoo-02.webp" alt="Capoo photo 2" loading="lazy" />
-          <img src="/images/capoo/capoo-03.webp" alt="Capoo photo 3" loading="lazy" />
-          <img src="/images/capoo/capoo-04.webp" alt="Capoo photo 4" loading="lazy" />
-        </div>
       </div>
     </section>
 

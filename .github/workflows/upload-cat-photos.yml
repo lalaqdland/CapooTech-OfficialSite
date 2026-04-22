@@ -1,0 +1,69 @@
+name: Upload Cat Photo from Issue
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  process-photo:
+    # Only run if issue has 'photo' label or title contains 'cat'
+    if: contains(github.event.issue.title, 'cat') || contains(github.event.issue.labels.*.name, 'photo')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Extract Image URL from Issue Body
+        id: extract
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const body = context.payload.issue.body;
+            if (!body) return core.setFailed('Issue body is empty.');
+            // Match standard Markdown image syntax from GitHub uploads
+            const match = body.match(/!\[.*?\]\((https:\/\/github\.com\/user-attachments\/assets\/[a-zA-Z0-9-]+)\)/);
+            if (!match) {
+              return core.setFailed('No github image link found in issue body.');
+            }
+            core.setOutput('url', match[1]);
+
+      - name: Download Image
+        run: curl -sL "${{ steps.extract.outputs.url }}" -o new_cat.img
+
+      - name: Convert and Optimize to WebP
+        uses: docker://dpokidov/imagemagick:latest
+        with:
+          args: new_cat.img -resize "1200>" -quality 85 new_cat.webp
+
+      - name: Commit File to images/capoo/
+        run: |
+          timestamp=$(date +%Y%m%d%H%M%S)
+          filename="capoo-${timestamp}.webp"
+          mv new_cat.webp "images/capoo/${filename}"
+          
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git add "images/capoo/${filename}"
+          git commit -m "chore: auto-upload new cat photo ${filename}"
+          git push
+
+      - name: Comment on Issue
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ 成功提取并转化了猫咪照片！现已自动部署到图库中。'
+            })
+            github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            })

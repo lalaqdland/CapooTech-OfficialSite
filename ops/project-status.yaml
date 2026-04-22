@@ -1,0 +1,31 @@
+key: officialsite
+name: CapooTech Official Site
+repo: lalaqdland/CapooTech-OfficialSite
+stage: production-maintenance
+progress_percent: 74
+summary: Static corporate website already online, now primarily maintained through release hygiene and basic operational visibility.
+current_focus:
+  - Keep the publish pipeline repeatable and visible from the console.
+  - Add runtime and release visibility for the live corporate site.
+blockers:
+  - title: No unified runtime monitoring
+    severity: medium
+    detail: Publish steps are documented, but uptime and release summaries are still outside a single console.
+  - title: Analytics not connected
+    severity: medium
+    detail: The site lacks a unified operator surface for traffic and content signals.
+next_steps:
+  - Sync release metadata and status docs into the console.
+  - Add lightweight site analytics after the console core is stable.
+environments:
+  - name: prod
+    branch: main
+    domain: capootech.com
+    health_url: https://capootech.com/
+    host: aliyun-shanghai
+    compose_services: []
+docs:
+  readme: README.md
+  todo:
+  status:
+    - ops/nginx/capootech.com.conf.example
