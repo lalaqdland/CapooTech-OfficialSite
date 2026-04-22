@@ -1,20 +1,22 @@
 backend:
   name: github
-  # 【⚠️核心配置警告】：请将这里的 owner/repo 修改为你真实的 GitHub 仓库地址
-  # 例如: capootech/capootech-officialsite
   repo: lalaqdland/CapooTech-OfficialSite 
   branch: main
 
 media_folder: "images/capoo"
 public_folder: "/images/capoo"
 
-# Sveltia CMS 的主要目标是能让你使用这个后台的 Media Library (富媒体相册系统)。
-# 这里声明了一个占位的集合，这样你登录后就可以点开媒体库(Media Library)直接在这里上传图片了！
+# 这里定义了我们对 data/photos.json 文件的直接网页版控制权限
 collections:
-  - name: "cats"
-    label: "Cat Configuration"
-    folder: "images/capoo" 
-    # 此文件夹主要用于存储文件，不在此直接编辑 Markdown
-    create: false
-    fields:
-      - {label: "Image", name: "image", widget: "image"}
+  - name: "site_data"
+    label: "Site Content"
+    files:
+      - file: "data/photos.json"
+        label: "Cat Gallery"
+        name: "photos"
+        fields:
+          - name: "gallery"
+            label: "🌟 Cat Photos (在这里管理主页的轮播照片)"
+            widget: "list"
+            fields:
+              - {name: "url", label: "Image", widget: "image"}
