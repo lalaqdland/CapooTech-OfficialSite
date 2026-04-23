@@ -60,7 +60,7 @@ jobs:
         run: |
           set -euxo pipefail
           release_id="${{ steps.meta.outputs.release_id }}"
-          tar -cf - index.html styles.css lang-toggle.js favicon-capoo.svg images \
+          tar -cf - --exclude='.git' --exclude='.github' --exclude='ops' . \
             | ssh -p "${SSH_PORT}" -i ~/.ssh/id_rsa "${SSH_USER}@${TARGET_HOST}" "tar -xf - -C /opt/sites/capootech/releases/${release_id}"
 
       - name: Activate release
