@@ -4,8 +4,8 @@
   const copy = {
     zh: {
       brand: "咖波科技 · CapooTech",
-      title: "咖波和它的工具箱",
-      subtitle: "我们做让写作和科研更顺手的小工具，顺便也给你看看咖波本喵。",
+      title: "咖波的小宇宙",
+      subtitle: "咖波科技的所有产品都从这里出发，咖波本喵也住在这儿。",
       grainDesc: "把你的草稿，改成你想说出口的样子。",
       openGrain: "打开 Grain",
       neuralDesc: "和你的科研笔记像聊天一样对话。",
@@ -18,8 +18,8 @@
     },
     en: {
       brand: "CapooTech · 咖波科技",
-      title: "Capoo & The Little Toolbox",
-      subtitle: "A small studio making tools that smooth out writing and research — with a side of Capoo himself.",
+      title: "Capoo's Little Universe",
+      subtitle: "Everything CapooTech makes ships from here, and Capoo himself lives here too.",
       grainDesc: "Reshape any draft into what you actually meant to say.",
       openGrain: "Open Grain",
       neuralDesc: "Chat with your research notes — they'll talk back.",
