@@ -2,12 +2,9 @@ backend:
   name: github
   repo: lalaqdland/CapooTech-OfficialSite
   branch: main
-  # Sveltia CMS PKCE flow — no Netlify proxy, no client secret needed.
-  # The app_id below is the Client ID of a GitHub OAuth App registered at:
-  #   GitHub → Settings → Developer settings → OAuth Apps → New OAuth App
-  # Authorization callback URL must be: https://capootech.com/admin/
-  auth_type: pkce
-  app_id: Ov23liSU4DTQ20L38bNv
+  # GitHub PKCE is not supported by Sveltia CMS yet.
+  # Use "Sign In with Token" on the login screen, or add base_url later
+  # if an OAuth proxy such as sveltia-cms-auth is deployed.
 
 media_folder: "images/capoo"
 public_folder: "/images/capoo"
