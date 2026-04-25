@@ -1,0 +1,21 @@
+[Unit]
+Description=CapooTech Sveltia CMS GitHub OAuth Authenticator
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=/etc/capootech/cms-auth.env
+WorkingDirectory=/opt/services/capootech-cms-auth
+ExecStart=/usr/bin/python3 /opt/services/capootech-cms-auth/server.py
+Restart=always
+RestartSec=5
+User=nginx
+Group=nginx
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

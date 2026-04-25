@@ -2,9 +2,7 @@ backend:
   name: github
   repo: lalaqdland/CapooTech-OfficialSite
   branch: main
-  # GitHub PKCE is not supported by Sveltia CMS yet.
-  # Use "Sign In with Token" on the login screen, or add base_url later
-  # if an OAuth proxy such as sveltia-cms-auth is deployed.
+  base_url: https://capootech.com/cms-auth
 
 media_folder: "images/capoo"
 public_folder: "/images/capoo"
