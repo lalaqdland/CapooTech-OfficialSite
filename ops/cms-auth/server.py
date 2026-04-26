@@ -11,7 +11,9 @@ import urllib.request
 
 
 ALLOWED_DOMAINS = os.environ.get("ALLOWED_DOMAINS", "capootech.com")
+ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "https://capootech.com")
 BASE_PATH = os.environ.get("BASE_PATH", "/cms-auth").rstrip("/")
+BIND_HOST = os.environ.get("BIND_HOST", "127.0.0.1")
 GITHUB_CLIENT_ID = os.environ.get("GITHUB_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_CLIENT_SECRET")
 GITHUB_HOSTNAME = os.environ.get("GITHUB_HOSTNAME", "github.com")
@@ -28,6 +30,16 @@ def is_allowed_domain(domain):
         if re.match(pattern, domain or ""):
             return True
     return False
+
+
+def is_allowed_origin(value):
+    if not value:
+        return False
+
+    origin = urllib.parse.urlparse(value)
+    request_origin = "{}://{}".format(origin.scheme, origin.netloc)
+
+    return any(request_origin == item.strip().rstrip("/") for item in ALLOWED_ORIGINS.split(","))
 
 
 def build_html(provider="unknown", token=None, error=None, error_code=None):
@@ -109,6 +121,7 @@ class CMSAuthHandler(http.server.BaseHTTPRequestHandler):
     def handle_auth(self, params):
         provider = params.get("provider", [""])[0]
         domain = params.get("site_id", [""])[0]
+        request_origin = self.headers.get("Origin") or self.headers.get("Referer")
 
         if provider != "github":
             return self.send_html(
@@ -121,6 +134,13 @@ class CMSAuthHandler(http.server.BaseHTTPRequestHandler):
                 provider=provider,
                 error="Your domain is not allowed to use the authenticator.",
                 error_code="UNSUPPORTED_DOMAIN",
+            )
+
+        if not is_allowed_origin(request_origin):
+            return self.send_html(
+                provider=provider,
+                error="This origin is not allowed to use the authenticator.",
+                error_code="UNSUPPORTED_ORIGIN",
             )
 
         if not GITHUB_CLIENT_ID or not GITHUB_CLIENT_SECRET:
@@ -212,7 +232,7 @@ class ThreadingHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
 
 
 if __name__ == "__main__":
-    address = ("127.0.0.1", PORT)
+    address = (BIND_HOST, PORT)
     httpd = ThreadingHTTPServer(address, CMSAuthHandler)
-    print("CapooTech CMS auth listening on 127.0.0.1:{}{}".format(PORT, BASE_PATH), flush=True)
+    print("CapooTech CMS auth listening on {}:{}{}".format(BIND_HOST, PORT, BASE_PATH), flush=True)
     httpd.serve_forever()

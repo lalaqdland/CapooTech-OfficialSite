@@ -50,3 +50,15 @@ curl -fsS https://capootech.com/cms-auth/healthz
 ```
 
 Finally set `base_url: https://capootech.com/cms-auth` in `admin/config.yml`.
+
+## Shanghai/Hong Kong Split
+
+The Shanghai server may not be able to reach `github.com/login/oauth/access_token`.
+If that happens, run this service on the Hong Kong server with:
+
+```bash
+BIND_HOST=0.0.0.0
+ALLOWED_ORIGINS=https://capootech.com
+```
+
+Then point the Shanghai Nginx `/cms-auth/` location at the Hong Kong service.
