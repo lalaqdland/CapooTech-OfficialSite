@@ -1,4 +1,4 @@
-:root, [data-theme="dark"] {
+﻿:root, [data-theme="dark"] {
   --bg: #0f172a;
   --bg-gradient-1: rgba(76, 29, 149, 0.25);
   --bg-gradient-2: rgba(15, 118, 110, 0.2);
@@ -57,6 +57,47 @@ body {
   z-index: 10; 
 }
 
+/* ======= Gallery Zoom Preview (突破容器的放大预览) ======= */
+.gallery-zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-zoom-overlay.visible {
+  opacity: 1;
+}
+
+.gallery-zoom-image {
+  position: fixed;
+  max-width: 400px;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 
+    0 0 0 4px var(--card-hover-border),
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 40px var(--accent-glow);
+  object-fit: cover;
+  transform: scale(0.8);
+  opacity: 0;
+  transition: 
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.gallery-zoom-image.visible {
+  transform: scale(1);
+  opacity: 1;
+}
 /* ======= Layout Toggles ======= */
 [data-layout="layout-a"] .edge-cats { display: none !important; }
 [data-layout="layout-a"] .page { padding: 24px 20px 64px; } /* Reset padding for bubble mode */
@@ -367,7 +408,13 @@ h1 {
   .floating-cats .orb {
     width: 140px; height: 140px;
   }
-  .edge-cats {
+    .edge-cats {
     height: 70px;
   }
+  .gallery-zoom-image {
+    max-width: 280px;
+    max-height: 280px;
+  }
 }
+
+
