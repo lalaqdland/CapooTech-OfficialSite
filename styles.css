@@ -67,7 +67,7 @@ body {
   pointer-events: none;
   z-index: 2147483647;
   opacity: 0;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, transparent 70%);
+  
   transition: opacity 0.3s ease;
 }
 
@@ -417,6 +417,7 @@ h1 {
     max-height: 280px;
   }
 }
+
 
 
 
