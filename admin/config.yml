@@ -1,4 +1,4 @@
-backend:
+﻿backend:
   name: github
   repo: lalaqdland/CapooTech-OfficialSite
   branch: main
@@ -20,15 +20,14 @@ collections:
             label: "🌟 Cat Photos"
             hint: |
               点击 Add 添加新图片，拖拽调整顺序，点击删除图标移除图片引用。
-              
+
               ⚠️ 重要提示：
               - 上传后图片会自动重命名为 capoo-YYYYMMDD-HHMMSS.webp 格式
               - 自动转换为 WebP 格式并压缩优化
               - 自动更新 photos.json 中的引用
               - 删除条目只会移除引用，不会删除物理文件
             widget: "list"
-            fields:
-              - name: "url"
-                label: "Image"
-                widget: "image"
-                hint: "上传新图片或从仓库选择。支持 JPG、PNG、GIF、WebP 等格式，会自动优化。"
+            field:
+              label: "Image"
+              widget: "image"
+              hint: "上传新图片或从仓库选择。支持 JPG、PNG、GIF、WebP 等格式，会自动优化。"
