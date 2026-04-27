@@ -81,34 +81,61 @@ function setupGalleryZoom() {
 
   let activeSource = null;
   let hoverTimeout = null;
+  const ZOOM_SCALE = 2.8;
+
+  function isLayoutA() {
+    const html = document.documentElement;
+    return html.getAttribute('data-layout') === 'layout-a';
+  }
 
   function showZoom(img) {
+    if (isLayoutA()) return;
+
     const rect = img.getBoundingClientRect();
-    const imgCenterX = rect.left + rect.width / 2;
-    const imgCenterY = rect.top + rect.height / 2;
+    const imgWidth = rect.width;
+    const imgHeight = rect.height;
 
-    zoomImage.src = img.src;
+    let zoomWidth = imgWidth * ZOOM_SCALE;
+    let zoomHeight = imgHeight * ZOOM_SCALE;
 
-    const previewWidth = Math.min(400, window.innerWidth * 0.6);
-    const previewHeight = Math.min(400, window.innerHeight * 0.6);
+    const maxAllowedWidth = window.innerWidth * 0.85;
+    const maxAllowedHeight = window.innerHeight * 0.8;
 
-    let previewX = imgCenterX - previewWidth / 2;
-    let previewY;
-
-    const isTopEdge = imgCenterY < window.innerHeight / 2;
-    if (isTopEdge) {
-      previewY = rect.bottom + 20;
-    } else {
-      previewY = rect.top - previewHeight - 20;
+    if (zoomWidth > maxAllowedWidth) {
+      const scaleRatio = maxAllowedWidth / zoomWidth;
+      zoomWidth = maxAllowedWidth;
+      zoomHeight *= scaleRatio;
+    }
+    if (zoomHeight > maxAllowedHeight) {
+      const scaleRatio = maxAllowedHeight / zoomHeight;
+      zoomHeight = maxAllowedHeight;
+      zoomWidth *= scaleRatio;
     }
 
-    previewX = Math.max(20, Math.min(window.innerWidth - previewWidth - 20, previewX));
-    previewY = Math.max(20, Math.min(window.innerHeight - previewHeight - 20, previewY));
+    let left = rect.left + (imgWidth - zoomWidth) / 2;
 
-    zoomImage.style.left = `${previewX}px`;
-    zoomImage.style.top = `${previewY}px`;
-    zoomImage.style.maxWidth = `${previewWidth}px`;
-    zoomImage.style.maxHeight = `${previewHeight}px`;
+    const viewportCenterY = window.innerHeight / 2;
+    const imgCenterY = rect.top + imgHeight / 2;
+    const isOnTopHalf = imgCenterY < viewportCenterY;
+
+    let top;
+    if (isOnTopHalf) {
+      top = rect.bottom + 15;
+    } else {
+      top = rect.top - zoomHeight - 15;
+    }
+
+    const padding = 15;
+    left = Math.max(padding, Math.min(left, window.innerWidth - zoomWidth - padding));
+    top = Math.max(padding, Math.min(top, window.innerHeight - zoomHeight - padding));
+
+    zoomImage.src = img.src;
+    zoomImage.style.width = `${zoomWidth}px`;
+    zoomImage.style.height = `${zoomHeight}px`;
+    zoomImage.style.left = `${left}px`;
+    zoomImage.style.top = `${top}px`;
+    zoomImage.style.maxWidth = 'none';
+    zoomImage.style.maxHeight = 'none';
 
     requestAnimationFrame(() => {
       zoomOverlay.classList.add('visible');
@@ -128,16 +155,15 @@ function setupGalleryZoom() {
     if (hoverTimeout) clearTimeout(hoverTimeout);
     hoverTimeout = setTimeout(() => {
       showZoom(img);
-    }, 150);
+    }, 120);
   }
 
   function handleMouseEnter(e) {
     const img = e.target;
-    if (img.tagName === 'IMG' && (
-      img.classList.contains('orb') ||
-      img.closest('.marquee-group')
-    )) {
-      debouncedShow(img);
+    if (img.tagName === 'IMG') {
+      if (img.closest('.marquee-group')) {
+        debouncedShow(img);
+      }
     }
   }
 
@@ -151,32 +177,6 @@ function setupGalleryZoom() {
     }
   }
 
-  function handleMouseMove(e) {
-    if (!activeSource) return;
-
-    const img = activeSource;
-    const rect = img.getBoundingClientRect();
-    const previewWidth = parseInt(zoomImage.style.maxWidth) || 400;
-    const previewHeight = parseInt(zoomImage.style.maxHeight) || 400;
-
-    let previewX = e.clientX - previewWidth / 2;
-    let previewY;
-
-    const isTopEdge = rect.top + rect.height / 2 < window.innerHeight / 2;
-    if (isTopEdge) {
-      previewY = rect.bottom + 20;
-    } else {
-      previewY = rect.top - previewHeight - 20;
-    }
-
-    previewX = Math.max(20, Math.min(window.innerWidth - previewWidth - 20, previewX));
-    previewY = Math.max(20, Math.min(window.innerHeight - previewHeight - 20, previewY));
-
-    zoomImage.style.left = `${previewX}px`;
-    zoomImage.style.top = `${previewY}px`;
-  }
-
   document.addEventListener('mouseenter', handleMouseEnter, true);
   document.addEventListener('mouseleave', handleMouseLeave, true);
-  document.addEventListener('mousemove', handleMouseMove, true);
 }
