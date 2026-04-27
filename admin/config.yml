@@ -7,7 +7,6 @@ backend:
 media_folder: "images/capoo"
 public_folder: "/images/capoo"
 
-# 这里定义了我们对 data/photos.json 文件的直接网页版控制权限
 collections:
   - name: "site_data"
     label: "Site Content"
@@ -15,9 +14,21 @@ collections:
       - file: "data/photos.json"
         label: "Cat Gallery"
         name: "photos"
+        hint: "在这里管理主页的轮播照片。上传图片后，GitHub Actions 会自动处理：重命名、转 WebP、压缩，并更新引用。"
         fields:
           - name: "gallery"
-            label: "🌟 Cat Photos (在这里管理主页的轮播照片)"
+            label: "🌟 Cat Photos"
+            hint: |
+              点击 Add 添加新图片，拖拽调整顺序，点击删除图标移除图片引用。
+              
+              ⚠️ 重要提示：
+              - 上传后图片会自动重命名为 capoo-YYYYMMDD-HHMMSS.webp 格式
+              - 自动转换为 WebP 格式并压缩优化
+              - 自动更新 photos.json 中的引用
+              - 删除条目只会移除引用，不会删除物理文件
             widget: "list"
             fields:
-              - {name: "url", label: "Image", widget: "image"}
+              - name: "url"
+                label: "Image"
+                widget: "image"
+                hint: "上传新图片或从仓库选择。支持 JPG、PNG、GIF、WebP 等格式，会自动优化。"
