@@ -85,6 +85,14 @@ class ImageProcessor:
             return url[len('images/capoo/'):]
         return url
 
+    def is_gallery_image_url(self, url):
+        """Check if a URL points to a gallery image managed by this script."""
+        if not isinstance(url, str):
+            return False
+
+        normalized = self.normalize_url(url)
+        return Path(normalized).suffix.lower() in self.SUPPORTED_FORMATS
+
     def get_file_hash(self, filepath):
         """Calculate MD5 hash of file content"""
         hash_md5 = hashlib.md5()
@@ -263,43 +271,65 @@ class ImageProcessor:
             print(f"URL mappings to update: {len(url_mapping)}")
             for old, new in url_mapping.items():
                 print(f"  {old} -> {new}")
-            
-            gallery = photos_data.get('gallery', [])
-            updated_gallery = []
-            
-            for item in gallery:
-                if isinstance(item, str):
-                    normalized = self.normalize_url(item)
-                    if item in url_mapping:
-                        updated_gallery.append(url_mapping[item])
-                        print(f"  Updated: {item} -> {url_mapping[item]}")
-                    elif normalized in url_mapping:
-                        new_url = f"/images/capoo/{url_mapping[normalized]}"
-                        updated_gallery.append(new_url)
-                        print(f"  Updated: {item} -> {new_url}")
-                    else:
-                        updated_gallery.append(item)
-                elif isinstance(item, dict):
-                    updated_item = item.copy()
-                    for key in ['url', 'image', 'src']:
-                        if key in updated_item:
-                            old_val = updated_item[key]
-                            normalized = self.normalize_url(old_val)
-                            if old_val in url_mapping:
-                                updated_item[key] = url_mapping[old_val]
-                                print(f"  Updated {key}: {old_val} -> {url_mapping[old_val]}")
-                            elif normalized in url_mapping:
-                                new_val = f"/images/capoo/{url_mapping[normalized]}"
-                                updated_item[key] = new_val
-                                print(f"  Updated {key}: {old_val} -> {new_val}")
-                    updated_gallery.append(updated_item)
-                else:
-                    updated_gallery.append(item)
-            
-            photos_data['gallery'] = updated_gallery
-            self.save_photos_json(photos_data)
         else:
             print("No URL mappings needed")
+
+        gallery = photos_data.get('gallery', [])
+        updated_gallery = []
+        removed_missing = 0
+
+        for item in gallery:
+            if isinstance(item, str):
+                normalized = self.normalize_url(item)
+                if item in url_mapping:
+                    new_item = url_mapping[item]
+                    print(f"  Updated: {item} -> {new_item}")
+                elif normalized in url_mapping:
+                    new_item = f"/images/capoo/{url_mapping[normalized]}"
+                    print(f"  Updated: {item} -> {new_item}")
+                else:
+                    new_item = item
+
+                if self.is_gallery_image_url(new_item):
+                    new_filename = self.normalize_url(new_item)
+                    if not (self.images_dir / new_filename).exists():
+                        print(f"  Removed missing reference: {new_item}")
+                        removed_missing += 1
+                        continue
+
+                updated_gallery.append(new_item)
+            elif isinstance(item, dict):
+                updated_item = item.copy()
+                missing_item = False
+
+                for key in ['url', 'image', 'src']:
+                    if key in updated_item:
+                        old_val = updated_item[key]
+                        normalized = self.normalize_url(old_val)
+                        if old_val in url_mapping:
+                            updated_item[key] = url_mapping[old_val]
+                            print(f"  Updated {key}: {old_val} -> {url_mapping[old_val]}")
+                        elif normalized in url_mapping:
+                            new_val = f"/images/capoo/{url_mapping[normalized]}"
+                            updated_item[key] = new_val
+                            print(f"  Updated {key}: {old_val} -> {new_val}")
+
+                        if self.is_gallery_image_url(updated_item[key]):
+                            new_filename = self.normalize_url(updated_item[key])
+                            if not (self.images_dir / new_filename).exists():
+                                print(f"  Removed missing reference: {updated_item[key]}")
+                                removed_missing += 1
+                                missing_item = True
+                                break
+
+                if not missing_item:
+                    updated_gallery.append(updated_item)
+            else:
+                updated_gallery.append(item)
+
+        if updated_gallery != gallery:
+            photos_data['gallery'] = updated_gallery
+            self.save_photos_json(photos_data)
         
         print("\n" + "=" * 60)
         print("Processing Summary")
@@ -307,6 +337,7 @@ class ImageProcessor:
         print(f"Total files processed: {processed_count}")
         print(f"Duplicates skipped/deleted: {skipped_count}")
         print(f"URL mappings created: {len(url_mapping)}")
+        print(f"Missing references removed: {removed_missing}")
         
         if self.dry_run:
             print("\n[DRY RUN] No changes were actually made")

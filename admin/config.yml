@@ -4,8 +4,13 @@
   branch: main
   base_url: https://capootech.com/cms-auth
 
-media_folder: "images/capoo"
+media_folder: "/images/capoo"
 public_folder: "/images/capoo"
+
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
 
 collections:
   - name: "site_data"
@@ -31,3 +36,7 @@ collections:
               label: "Image"
               widget: "image"
               hint: "上传新图片或从仓库选择。支持 JPG、PNG、GIF、WebP 等格式，会自动优化。"
+              choose_url: false
+              accept: "image/jpeg,image/png,image/gif,image/webp,image/avif,image/svg+xml"
+              media_folder: "/images/capoo"
+              public_folder: "/images/capoo"
