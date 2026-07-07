@@ -4,13 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CapooTech</title>
-  <meta name="description" content="CapooTech apps: Grain and NeuralNote" />
+  <meta name="description" content="CapooTech apps: Grain, NeuralNote, SeekKit, News and Blog" />
   <link rel="icon" type="image/svg+xml" href="/favicon-capoo.svg?v=20260208" />
-  <link rel="stylesheet" href="/styles.css?v=20260427b" />
-  <script src="/lang-toggle.js?v=20260427b" defer></script>
-  <script src="/theme-toggle.js?v=20260427b" defer></script>
-  <script src="/layout-toggle.js?v=20260427b" defer></script>
-  <script src="/gallery-loader.js?v=20260427b" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=20260707a" />
+  <script src="/lang-toggle.js?v=20260707a" defer></script>
+  <script src="/theme-toggle.js?v=20260707a" defer></script>
+  <script src="/layout-toggle.js?v=20260707a" defer></script>
+  <script src="/gallery-loader.js?v=20260707a" defer></script>
 </head>
 <body>
   
@@ -35,32 +35,6 @@
 
   <main class="page">
     <header class="topbar">
-      <!-- 博客入口（隐蔽图标，→ blog.capootech.com） -->
-      <a
-        class="lang-toggle"
-        href="https://blog.capootech.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="博客"
-        title="咖波的博客"
-        style="text-decoration: none"
-      >
-        <span class="lang-icon" aria-hidden="true">📝</span>
-      </a>
-
-      <!-- 信息流入口（隐蔽图标，私密，→ news.capootech.com） -->
-      <a
-        class="lang-toggle"
-        href="https://news.capootech.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="信息流"
-        title="Hermes 信息流"
-        style="text-decoration: none"
-      >
-        <span class="lang-icon" aria-hidden="true">📡</span>
-      </a>
-
       <!-- 视角切换 -->
       <button
         id="layout-toggle"
@@ -110,6 +84,21 @@
           <h2>NeuralNote</h2>
           <p data-i18n="neuralDesc">和你的科研笔记像聊天一样对话。</p>
           <span data-i18n="openNeural">打开 NeuralNote</span>
+        </a>
+        <a class="card seekkit" href="https://www.seekkit.cn/" target="_blank" rel="noopener noreferrer">
+          <h2>SeekKit</h2>
+          <p data-i18n="seekkitDesc">2026 世界杯竞彩预测与盘口分析工具。</p>
+          <span data-i18n="openSeekkit">打开 SeekKit</span>
+        </a>
+        <a class="card news" href="https://news.capootech.com" target="_blank" rel="noopener noreferrer">
+          <h2>CapooTech News</h2>
+          <p data-i18n="newsDesc">Hermes 推送的信息流，可搜索、筛选与回看。</p>
+          <span data-i18n="openNews">打开 News</span>
+        </a>
+        <a class="card blog" href="https://blog.capootech.com" target="_blank" rel="noopener noreferrer">
+          <h2>Blog</h2>
+          <p data-i18n="blogDesc">咖波的个人博客，记录想法、工具与创作。</p>
+          <span data-i18n="openBlog">打开 Blog</span>
         </a>
       </div>
     </section>
